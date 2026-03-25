@@ -2,47 +2,54 @@ import mongoose from "mongoose";
 
 const recipeSchema = new mongoose.Schema(
   {
-    image_url: {
+    imageURL: {
       type: String,
       required: true,
     },
-    author_id: {
-      type: String,
-      required: true,
-    },
+
     title: {
       type: String,
       required: true,
     },
+
     category: {
       type: String,
       required: true,
+      enum:["breakfast","lunch","brunch","dinner"]
     },
-    preparation_time: {
+
+    preparationTime: {
       type: Number,
       required: true,
     },
-    number_persons: {
+    numberPersons: {
       type: Number,
       required: true,
     },
-    short_description: {
+
+    shortDescription: {
       type: String,
       required: true,
     },
-    long_description: {
+
+    longDescription: {
       type: String,
       required: true,
     },
+
+    authorId: {
+      type: String,
+      required: true,
+    },
+
     likes: {
       type: Number,
-      required: true,
+      default:0,
     },
   },
   { timestamps: true },
 );
 
-const Recipe = mongoose.model("Recipe",recipeSchema);
+const Recipe = mongoose.model("Recipe", recipeSchema);
 
 export default Recipe;
-

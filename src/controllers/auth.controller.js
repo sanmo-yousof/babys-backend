@@ -79,13 +79,13 @@ const loginUser = async (req, res) => {
     // check user is in DB
     const user = await User.findOne({ email });
     if (!user) {
-      return errorResponse(res, 401, "Email is incorrect");
+      return errorResponse(res, 401, "Invalid credential");
     }
 
     const isMatch = await comparePassword(password, user.password);
 
     if (!isMatch) {
-      return errorResponse(res, 401, "Password is incorrect");
+      return errorResponse(res, 401, "Invalid credential");
     }
 
     generateTokenAndSetCookie(user._id, res);
