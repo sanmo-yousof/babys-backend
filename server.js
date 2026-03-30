@@ -1,7 +1,7 @@
 import dotenv from 'dotenv';
-import {app} from './src/app.js';
 import os from 'os'
 import connectMongoDB from './src/config/db.js';
+import app from './src/app.js';
 dotenv.config();
 
 const getLocalIP = () => {
@@ -14,6 +14,7 @@ const getLocalIP = () => {
         }
     }
 }
+
 
 const PORT = process.env.PORT || 5000;
 const localIP = getLocalIP();
@@ -30,4 +31,6 @@ app.listen(PORT,'0.0.0.0',() => {
     console.log(`Local:   http://localhost:${PORT}`);
     console.log(`Network: http://${localIP}:${PORT}`);
 });
+
+
 

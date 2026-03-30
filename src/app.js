@@ -30,4 +30,4 @@ app.get("/", (req, res) => {
   res.send("Server is running !!");
 });
 
-export { app };
+export default app;
