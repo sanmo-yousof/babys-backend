@@ -2,7 +2,8 @@ import jwt from "jsonwebtoken"
 import User from "../models/user.model.js";
 import { errorResponse } from "../utils/response.js";
 
-const verifyUser = async(req,res,next) => {
+const verifyUser = (roles = []) => {
+  return async(req,res,next) => {
   try {
     const token = req.cookies.jwt;
     if(!token){
@@ -19,6 +20,10 @@ const verifyUser = async(req,res,next) => {
         return errorResponse(res,404,"User not found")
     }
 
+    if(roles.length && !roles.includes(user.role)){
+      return errorResponse(res,403,"Forbidden -Access denied")
+    }
+
     req.user = user
     next()
     
@@ -27,5 +32,7 @@ const verifyUser = async(req,res,next) => {
     return errorResponse(res);
   }
 }
+}
+
 
 export default verifyUser ;

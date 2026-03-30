@@ -15,7 +15,7 @@ const recipeSchema = new mongoose.Schema(
     category: {
       type: String,
       required: true,
-      enum:["breakfast","lunch","brunch","dinner"]
+      enum: ["breakfast", "lunch", "brunch", "dinner"],
     },
 
     preparationTime: {
@@ -38,13 +38,19 @@ const recipeSchema = new mongoose.Schema(
     },
 
     authorId: {
-      type: String,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
       required: true,
     },
 
     likes: {
       type: Number,
-      default:0,
+      default: 0,
+    },
+    status: {
+      type: String,
+      default: "approved",
+      enum: ["pending", "approved", "rejected"],
     },
   },
   { timestamps: true },

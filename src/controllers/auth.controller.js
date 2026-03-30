@@ -138,7 +138,7 @@ const updateUser = async (req, res) => {
       userId,
       {$set:updatedFields},
       {new:true,runValidators:true}
-    ).select("-password -__v");
+    ).select("-password -__v ");
 
     if(!updateUser){
       return errorResponse(res,404,"User not found")
@@ -177,4 +177,44 @@ const logoutUser = async (req, res) => {
   }
 };
 
-export { createUser, loginUser, updateUser, currentUser, logoutUser };
+
+// admin 
+// all users 
+const getUsers = async(req,res) => {
+  try {
+    const users = await User.aggregate([
+      {
+        $match:{role:"user"},
+      },
+      {
+        $lookup:{
+          from:"recipes",
+          localField:"_id",
+          foreignField:"authorId",
+          as:"recipes"
+        },
+      },
+      {
+        $addFields:{
+          totalRecipe:{$size:"$recipes"}
+        },
+      },
+      {
+        $project:{
+          password:0,
+          recipes:0,
+        },
+      },
+      {
+        $sort: { createdAt: -1 },
+      }
+    ]);
+    return successResponse(res,200,"All users fetched success",users);
+  } catch (error) {
+    console.log("Error in getUsers controller", error.message);
+    return errorResponse(res);
+  }
+
+}
+
+export { createUser, loginUser, updateUser, currentUser, logoutUser,getUsers };
